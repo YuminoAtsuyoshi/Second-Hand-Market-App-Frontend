@@ -4,33 +4,22 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PageHeader from "./components/PageHeader";
 import Home from "./pages/Home";
 import Sell from "./pages/Sell";
+import Purchase from "./pages/Purchase";
+import Selling from "./pages/Selling";
 
 const { Header, Content } = Layout;
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const logout = (data) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("logout");
-      }, 1000);
-    });
-  };
-
   const signinOnSuccess = () => {
     setLoggedIn(true);
   };
 
   const signoutOnClick = () => {
-    logout()
-      .then(() => {
-        setLoggedIn(false);
-        message.success("Successfully Signed out");
-      })
-      .catch((err) => {
-        message.error(err.message);
-      });
+    localStorage.removeItem("authToken");
+    setLoggedIn(false);
+    message.success("Successfully Signed out");
   };
 
   return (
@@ -50,6 +39,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/sell" element={<Sell />} />
+              <Route path="/purchase-history" element={<Purchase />} />
+              <Route path="/selling" element={<Selling />} />
             </Routes>
           </Content>
         </Layout>

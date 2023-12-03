@@ -1,6 +1,7 @@
 import { Button, Form, Input, message, Modal } from "antd";
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { login } from "../utils";
 
 function Login({ onSuccess }) {
   const [displayModal, setDisplayModal] = useState(false);
@@ -11,14 +12,6 @@ function Login({ onSuccess }) {
 
   const signinOnClick = () => {
     setDisplayModal(true);
-  };
-
-  const login = (data) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("login");
-      }, 1000);
-    });
   };
 
   const onFinish = (data) => {

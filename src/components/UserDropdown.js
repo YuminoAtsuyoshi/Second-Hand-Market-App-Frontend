@@ -1,5 +1,6 @@
 import React from "react";
 import { Dropdown, Button } from "antd";
+import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 
 function UserDropdown({ signout }) {
@@ -14,11 +15,19 @@ function UserDropdown({ signout }) {
     },
     {
       key: "3",
-      label: <>Purchase History</>,
+      label: (
+        <>
+          <Link to="/purchase-history">Purchase History</Link>
+        </>
+      ),
     },
     {
       key: "4",
-      label: <>Setting</>,
+      label: (
+        <>
+          <Link to="/selling">Selling</Link>
+        </>
+      ),
     },
     {
       key: "5",
