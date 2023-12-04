@@ -2,11 +2,22 @@ import { Button, Form, Input, message, Modal } from "antd";
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
-function Login({ onSuccess }) {
+function Login({
+  externalVisible,
+  onExternalCancel,
+  onSuccess,
+  showButton = true,
+}) {
   const [displayModal, setDisplayModal] = useState(false);
 
   const handleCancel = () => {
-    setDisplayModal(false);
+    if (externalVisible !== undefined) {
+      // 如果有外部控制的visible属性，则调用外部的取消函数
+      onExternalCancel();
+    } else {
+      // 否则使用内部状态关闭Modal
+      setDisplayModal(false);
+    }
   };
 
   const signinOnClick = () => {
@@ -35,16 +46,18 @@ function Login({ onSuccess }) {
 
   return (
     <>
-      <Button
-        shape="round"
-        onClick={signinOnClick}
-        style={{ marginRight: "20px" }}
-      >
-        Login
-      </Button>
+      {showButton && (
+        <Button
+          shape="round"
+          onClick={() => setDisplayModal(true)}
+          style={{ marginRight: "20px" }}
+        >
+          Login
+        </Button>
+      )}
       <Modal
         title="Log in"
-        visible={displayModal}
+        visible={externalVisible !== undefined ? externalVisible : displayModal} // 外部控制的visible优先
         onCancel={handleCancel}
         footer={null}
         destroyOnClose={true}

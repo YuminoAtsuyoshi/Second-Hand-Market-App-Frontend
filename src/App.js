@@ -48,7 +48,10 @@ function App() {
         <Layout>
           <Content>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route
+                path="/"
+                element={<Home onLoginSuccess={signinOnSuccess} />}
+              />
               <Route path="/sell" element={<Sell />} />
             </Routes>
           </Content>
