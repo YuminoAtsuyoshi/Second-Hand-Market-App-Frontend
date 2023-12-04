@@ -1,6 +1,7 @@
-import { Button, Form, Input, message, Modal } from "antd";
+import { Button, Form, Input, message, Modal, Radio } from "antd";
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { register } from "../utils";
 
 function Register() {
   const [displayModal, setDisplayModal] = useState(false);
@@ -11,14 +12,6 @@ function Register() {
 
   const signupOnClick = () => {
     setDisplayModal(true);
-  };
-
-  const register = (data) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("register");
-      }, 1000);
-    });
   };
 
   const onFinish = (data) => {
@@ -63,24 +56,28 @@ function Register() {
             <Input.Password prefix={<LockOutlined />} placeholder="Password" />
           </Form.Item>
           <Form.Item
-            name="first_name"
-            rules={[
-              { required: true, message: "Please input your first name" },
-            ]}
+            name="name"
+            rules={[{ required: true, message: "Please input your name" }]}
           >
-            <Input placeholder="First name" />
+            <Input placeholder="Name" />
           </Form.Item>
           <Form.Item
-            name="last_name"
-            rules={[{ required: true, message: "Please input your last name" }]}
+            name="age"
+            rules={[{ required: true, message: "Please input your age" }]}
           >
-            <Input placeholder="Last name" />
+            <Input placeholder="Age" />
           </Form.Item>
           <Form.Item
-            name="location"
-            rules={[{ required: true, message: "Please input your location" }]}
+            label="Gender"
+            name="gender"
+            rules={[{ required: true, message: "Please input your gender" }]}
           >
-            <Input placeholder="Locations" />
+            <Radio.Group>
+              <Radio value="male">Male</Radio>
+              <Radio value="female">Female</Radio>
+              <Radio value="non-binary">Non-binary</Radio>
+              <Radio value="n-a">Prefer not to say</Radio>
+            </Radio.Group>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
