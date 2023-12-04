@@ -40,7 +40,9 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Home onLoginSuccess={signinOnSuccess} />}
+                element={
+                  <Home loggedIn={loggedIn} onLoginSuccess={signinOnSuccess} />
+                }
               />
               <Route path="/sell" element={<Sell />} />
               <Route path="/purchase-history" element={<Purchase />} />

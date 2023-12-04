@@ -6,13 +6,14 @@ import Login from "../components/Login";
 const { Content } = Layout;
 const { Text } = Typography;
 
-const Home = ({ onLoginSuccess }) => {
+const Home = ({ loggedIn, onLoginSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // 状态变量控制Login弹窗
 
   const showLoginModal = () => {
-    console.log("Trying to show login modal");
-    setIsLoginModalVisible(true); // 显示Login弹窗
+    if (!loggedIn) {
+      setIsLoginModalVisible(true); // 显示Login弹窗
+    }
   };
 
   const handleLoginSuccess = () => {
