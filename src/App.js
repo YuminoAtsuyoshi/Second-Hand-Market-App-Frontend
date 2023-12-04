@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Sell from "./pages/Sell";
 import Purchase from "./pages/Purchase";
 import Selling from "./pages/Selling";
+import Detail from "./pages/Detail";
 
 const { Header, Content } = Layout;
 
@@ -41,6 +42,7 @@ function App() {
               <Route path="/sell" element={<Sell />} />
               <Route path="/purchase-history" element={<Purchase />} />
               <Route path="/selling" element={<Selling />} />
+              <Route path="/item/:id" element={<Detail />} />
             </Routes>
           </Content>
         </Layout>
