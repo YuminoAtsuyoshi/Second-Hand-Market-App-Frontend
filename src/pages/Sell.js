@@ -10,7 +10,6 @@ function Sell() {
 
   const handleSubmit = (values) => {
     console.log("Form Submitted:", values);
-    
   };
 
   return (
@@ -23,10 +22,10 @@ function Sell() {
         <Form layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             name="title"
-            label="Title (use words people would search for when looking for your item)"
+            label="Title"
             rules={[{ required: true, message: "Please input the title!" }]}
           >
-            <Input />
+            <Input placeholder="Use words people would search for when looking for your item" />
           </Form.Item>
 
           <Form.Item label="Item Specifics">
@@ -135,7 +134,7 @@ function Sell() {
 
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Upload
+              Submit
             </Button>
           </Form.Item>
         </Form>
