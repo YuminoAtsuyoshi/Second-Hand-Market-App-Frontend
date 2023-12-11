@@ -28,11 +28,19 @@ const Home = ({
     onLoginSuccess(); // 调用外部传入的onLoginSuccess回调
   };
 
-  const handleItemClick = (itemId) => {
+  const handleItemClick = (item) => {
     if (!loggedIn) {
       showLoginModal();
     } else {
-      navigate(`/item/${itemId}`);
+      navigate(`/item/${item.id}`, {
+        state: {
+          user: item.user,
+          title: item.title,
+          description: item.description,
+          price: item.price,
+          url: item.url,
+        },
+      });
     }
   };
 
@@ -108,7 +116,7 @@ const Home = ({
                         objectFit: "cover", // 保持图片纵横比，确保图片完整显示在容器内
                         objectPosition: "center", // 图片居中显示
                       }}
-                      onClick={() => handleItemClick(item.id)} // 添加点击事件处理器
+                      onClick={() => handleItemClick(item)} // 添加点击事件处理器
                     />
                   </div>
                 </Card>
