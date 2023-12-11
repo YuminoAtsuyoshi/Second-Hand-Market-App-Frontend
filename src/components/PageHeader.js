@@ -14,7 +14,6 @@ import {
   SearchOutlined,
   ShopOutlined,
   MessageOutlined,
-  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Register from "./Register";
@@ -154,15 +153,6 @@ function PageHeader({
             <Col>
               <Button shape="round">
                 <MessageOutlined />
-              </Button>
-            </Col>
-          </>
-        )}
-        {loggedIn && (
-          <>
-            <Col>
-              <Button shape="round">
-                <ShoppingCartOutlined />
               </Button>
             </Col>
           </>

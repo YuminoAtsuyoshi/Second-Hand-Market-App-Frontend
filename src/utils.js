@@ -40,7 +40,7 @@ export const register = (credential) => {
 
 export const searchItems = (query) => {
   console.log("Sending search request with query:", query);
-  
+
   const title = query?.title ?? "";
   const description = query?.description ?? "";
 
@@ -63,5 +63,39 @@ export const searchItems = (query) => {
     return response.json();
     //.json的作用就是把后端发回来的json string立体化成一个json object
     //也就是把我们搜索得到的结果返回并且立体化成一个json object
+  });
+};
+
+export const uploadItem = (data, file) => {
+  const authToken = localStorage.getItem("authToken");
+  const username = localStorage.getItem("username");
+  const url = `${domain}/upload`;
+
+  console.log(file);
+
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("condition", data.condition);
+  formData.append("type", data.type);
+  formData.append("brand", data.brand);
+  formData.append("style", data.style);
+  formData.append("department", data.department);
+  formData.append("shipping", data.shipping);
+  formData.append("location", data.location);
+  formData.append("price", parseInt(data.price));
+  formData.append("media_file", file);
+  formData.append("description", data.description);
+  formData.append("username", username);
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: formData,
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to upload item");
+    }
   });
 };

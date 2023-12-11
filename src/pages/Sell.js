@@ -1,15 +1,36 @@
-import React, { useRef } from "react";
-import { Layout, Form, Input, Select, InputNumber, Button, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import React, { useRef, useState } from "react";
+import {
+  Layout,
+  Form,
+  Input,
+  Select,
+  InputNumber,
+  Button,
+  message,
+} from "antd";
+import { uploadItem } from "../utils";
 
 const { Content } = Layout;
 const { Option } = Select;
 
 function Sell() {
+  const [loading, setLoading] = useState(false);
+
   const fileInputRef = useRef(null);
 
-  const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
+  const handleSubmit = async (values) => {
+    const { files } = fileInputRef.current;
+
+    setLoading(true);
+
+    try {
+      await uploadItem(values, files[0]);
+      message.success("Upload successfully");
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -110,16 +131,13 @@ function Sell() {
             name="photo"
             label="Upload Photo"
             valuePropName="fileList"
-            getValueFromEvent={(e) => e.fileList}
+            rules={[{ required: true, message: "Please upload the photo!" }]}
           >
-            <Upload
-              name="photo"
-              action="/upload.do"
-              listType="picture"
-              beforeUpload={() => false}
-            >
-              <Button icon={<UploadOutlined />}>Click to upload</Button>
-            </Upload>
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              ref={fileInputRef}
+            />
           </Form.Item>
 
           <Form.Item
