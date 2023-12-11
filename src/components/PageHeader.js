@@ -111,6 +111,7 @@ function PageHeader({
                     <Select defaultValue="title" onChange={handleFilterChange}>
                       <Option value="title">By Title</Option>
                       <Option value="description">By Description</Option>
+                      <Option value="location">By Location</Option>
                     </Select>
                   }
                 />

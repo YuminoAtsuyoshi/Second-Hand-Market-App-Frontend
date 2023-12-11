@@ -43,11 +43,13 @@ export const searchItems = (query) => {
 
   const title = query?.title ?? "";
   const description = query?.description ?? "";
+  const location = query?.location ?? "";
 
   const authToken = localStorage.getItem("authToken");
   const url = new URL(`${domain}/search`);
   url.searchParams.append("title", title);
   url.searchParams.append("description", description);
+  url.searchParams.append("location", location);
 
   return fetch(url, {
     headers: {
