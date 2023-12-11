@@ -3,12 +3,7 @@ import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { login } from "../utils";
 
-function Login({
-  externalVisible,
-  onExternalCancel,
-  onSuccess,
-  showButton = true,
-}) {
+function Login({ externalVisible, onExternalCancel, onSuccess, showButton }) {
   const [displayModal, setDisplayModal] = useState(false);
 
   const handleCancel = () => {
@@ -19,10 +14,6 @@ function Login({
       // 否则使用内部状态关闭Modal
       setDisplayModal(false);
     }
-  };
-
-  const signinOnClick = () => {
-    setDisplayModal(true);
   };
 
   const onFinish = (data) => {
@@ -39,15 +30,17 @@ function Login({
 
   return (
     <>
-      {showButton && (
-        <Button
-          shape="round"
-          onClick={() => setDisplayModal(true)}
-          style={{ marginRight: "20px" }}
-        >
-          Login
-        </Button>
-      )}
+      {
+        (showButton = true && (
+          <Button
+            shape="round"
+            onClick={() => setDisplayModal(true)}
+            style={{ marginRight: "20px" }}
+          >
+            Login
+          </Button>
+        ))
+      }
       <Modal
         title="Log in"
         visible={externalVisible !== undefined ? externalVisible : displayModal} // 外部控制的visible优先

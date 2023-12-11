@@ -1,14 +1,20 @@
-import React from "react";
 import { Layout, Card, List, Typography } from "antd";
 import { useState } from "react";
 import Login from "../components/Login";
+import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 const { Text } = Typography;
 
-const Home = ({ loggedIn, onLoginSuccess }) => {
-  const [loading, setLoading] = useState(false);
+const Home = ({
+  loggedIn,
+  onLoginSuccess,
+  searchResults,
+  isSearchPerformed,
+}) => {
+  console.log("Home received searchResults:", searchResults);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // 状态变量控制Login弹窗
+  const navigate = useNavigate();
 
   const showLoginModal = () => {
     if (!loggedIn) {
@@ -22,6 +28,14 @@ const Home = ({ loggedIn, onLoginSuccess }) => {
     onLoginSuccess(); // 调用外部传入的onLoginSuccess回调
   };
 
+  const handleItemClick = (itemId) => {
+    if (!loggedIn) {
+      showLoginModal();
+    } else {
+      navigate(`/item/${itemId}`);
+    }
+  };
+
   // 使用GitHub托管的图片链接初始化数据
   const initialData = Array.from({ length: 20 }, (_, index) => ({
     id: index,
@@ -33,8 +47,7 @@ const Home = ({ loggedIn, onLoginSuccess }) => {
     }.jpg`,
   }));
 
-  const [data, setData] = useState(initialData);
-  // const [data, setData] = useState([]);
+  const displayedData = isSearchPerformed ? searchResults : initialData;
 
   return (
     <Layout style={{ padding: "24px" }}>
@@ -47,56 +60,62 @@ const Home = ({ loggedIn, onLoginSuccess }) => {
           overflow: "auto",
         }}
       >
-        <List
-          style={{ marginTop: 20 }}
-          loading={loading}
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 3,
-            md: 3,
-            lg: 3,
-            xl: 4,
-            xxl: 4,
-          }}
-          //list里面最重要的两个部分: dataSource是把源数据这个数组拿过来,
-          //data是一个javaScript object, 是通过utils.js最后那句 return response.json()把后端返回的json string立体化成object
-          //renderItem是把dataSource里面的数据一个一个的转化成jsx
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item>
-              <Card
-                key={item.id}
-                title={
-                  <Text ellipsis={true} style={{ maxWidth: 150 }}>
-                    {item.title}
-                  </Text>
-                }
-                extra={<Text type="secondary">${item.price}</Text>}
-                onClick={showLoginModal} // 点击卡片显示登录弹窗
-              >
-                <div
-                  style={{
-                    cursor: "pointer", // 更改鼠标样式以指示可点击
-                    display: "inline-block", // 或者 'block' 取决于布局
-                    width: "100%", // 容器宽度
-                  }}
+        {displayedData.length === 0 ? (
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <p>No matching results found.</p>
+          </div>
+        ) : (
+          <List
+            style={{ marginTop: 20 }}
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 3,
+              md: 3,
+              lg: 3,
+              xl: 4,
+              xxl: 4,
+            }}
+            //list里面最重要的两个部分: dataSource是把源数据这个数组拿过来,
+            //data是一个javaScript object, 是通过utils.js最后那句 return response.json()把后端返回的json string立体化成object
+            //renderItem是把dataSource里面的数据一个一个的转化成jsx
+            dataSource={displayedData}
+            renderItem={(item) => (
+              <List.Item>
+                <Card
+                  key={item.id}
+                  title={
+                    <Text ellipsis={true} style={{ maxWidth: 150 }}>
+                      {item.title}
+                    </Text>
+                  }
+                  extra={<Text type="secondary">${item.price}</Text>}
+                  onClick={showLoginModal} // 点击卡片显示登录弹窗
                 >
-                  <img
-                    alt="Placeholder" //alt是alternative description
-                    src={item.url}
+                  <div
                     style={{
+                      cursor: "pointer", // 更改鼠标样式以指示可点击
+                      display: "inline-block", // 或者 'block' 取决于布局
                       width: "100%", // 容器宽度
-                      height: "252px", // 容器高度
-                      objectFit: "cover", // 保持图片纵横比，确保图片完整显示在容器内
-                      objectPosition: "center", // 图片居中显示
                     }}
-                  />
-                </div>
-              </Card>
-            </List.Item>
-          )}
-        />
+                  >
+                    <img
+                      alt="Placeholder" //alt是alternative description
+                      src={item.url}
+                      style={{
+                        width: "100%", // 容器宽度
+                        height: "252px", // 容器高度
+                        objectFit: "cover", // 保持图片纵横比，确保图片完整显示在容器内
+                        objectPosition: "center", // 图片居中显示
+                      }}
+                      onClick={() => handleItemClick(item.id)} // 添加点击事件处理器
+                    />
+                  </div>
+                </Card>
+              </List.Item>
+            )}
+          />
+        )}
       </Content>
       <Login
         externalVisible={isLoginModalVisible} // 传递isLoginModalVisible作为外部控制的visible属性

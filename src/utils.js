@@ -37,3 +37,31 @@ export const register = (credential) => {
     }
   });
 };
+
+export const searchItems = (query) => {
+  console.log("Sending search request with query:", query);
+  
+  const title = query?.title ?? "";
+  const description = query?.description ?? "";
+
+  const authToken = localStorage.getItem("authToken");
+  const url = new URL(`${domain}/search`);
+  url.searchParams.append("title", title);
+  url.searchParams.append("description", description);
+
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      return response.text().then((text) => {
+        throw new Error(text || "Failed to search items");
+      });
+    }
+
+    return response.json();
+    //.json的作用就是把后端发回来的json string立体化成一个json object
+    //也就是把我们搜索得到的结果返回并且立体化成一个json object
+  });
+};

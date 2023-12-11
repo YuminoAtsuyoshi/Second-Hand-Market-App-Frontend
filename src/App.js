@@ -7,11 +7,14 @@ import Sell from "./pages/Sell";
 import Purchase from "./pages/Purchase";
 import Selling from "./pages/Selling";
 import Detail from "./pages/Detail";
+import { searchItems } from "./utils";
+import LogoutRedirect from "./components/LogoutRedirect";
 
 const { Header, Content } = Layout;
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
   const signinOnSuccess = () => {
     setLoggedIn(true);
@@ -20,7 +23,26 @@ function App() {
   const signoutOnClick = () => {
     localStorage.removeItem("authToken");
     setLoggedIn(false);
+    setSearchResults([]);
     message.success("Successfully Signed out");
+  };
+
+  const handleSearch = async (query) => {
+    console.log("handleSearch called with query:", query);
+    try {
+      const resp = await searchItems(query);
+      setSearchResults(resp || []);
+
+      if (!resp || resp.length === 0) {
+        message.info("No matching results found!");
+      }
+    } catch (error) {
+      message.error(error.message || "An error occurred during the search.");
+    }
+  };
+
+  const resetSearch = () => {
+    setSearchResults([]); // 重置搜索结果
   };
 
   return (
@@ -32,6 +54,8 @@ function App() {
               loggedIn={loggedIn}
               signoutOnClick={signoutOnClick}
               signinOnSuccess={signinOnSuccess}
+              onSearch={handleSearch}
+              resetSearch={resetSearch}
             />
           </Header>
         </Layout>
@@ -41,7 +65,12 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <Home loggedIn={loggedIn} onLoginSuccess={signinOnSuccess} />
+                  <Home
+                    loggedIn={loggedIn}
+                    onLoginSuccess={signinOnSuccess}
+                    searchResults={searchResults}
+                    isSearchPerformed={searchResults.length > 0}
+                  />
                 }
               />
               <Route path="/sell" element={<Sell />} />
@@ -51,6 +80,7 @@ function App() {
             </Routes>
           </Content>
         </Layout>
+        <LogoutRedirect loggedIn={loggedIn} />
       </Router>
     </>
   );
