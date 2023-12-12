@@ -53,6 +53,7 @@ const Home = ({
     url: `https://raw.githubusercontent.com/candiceKD/image/main/image${
       index + 1
     }.jpg`,
+    user: `John Smith`,
   }));
 
   const displayedData = isSearchPerformed ? searchResults : initialData;

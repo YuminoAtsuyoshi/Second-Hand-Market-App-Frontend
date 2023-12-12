@@ -1,30 +1,36 @@
 import React from "react";
 import { Layout, Typography, List, Col } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 const { Text } = Typography;
 
 const Purchase = () => {
-  const data = [
-    {
-      img: "https://m.media-amazon.com/images/I/41nxqnBe11L.jpg",
-      item_name: "Book",
-      id: "123456",
-      seller: "Student 1",
-      price: "$20.00",
-      status: "Delivered",
-      rating: "☆☆☆☆☆",
-    },
-    {
-      img: "https://m.media-amazon.com/images/I/41nxqnBe11L.jpg",
-      item_name: "Keyboard",
-      id: "234567",
-      seller: "Student 2",
-      price: "$90.00",
-      status: "Shipped",
-      rating: "☆☆☆☆☆",
-    },
-  ];
+  const navigate = useNavigate();
+
+  const initialData = Array.from({ length: 20 }, (_, index) => ({
+    id: index,
+    title: `Item ${index + 1}`,
+    price: (index + 1) * 10, // 示例价格
+    // 用你的GitHub用户名、仓库名替换下面的URL
+    url: `https://raw.githubusercontent.com/candiceKD/image/main/image${
+      index + 1
+    }.jpg`,
+    user: `John Smith`,
+  }));
+
+  const handleClick = (item) => {
+    navigate(`/item/${item.id}`, {
+      state: {
+        user: item.user,
+        title: item.title,
+        description: item.description,
+        price: item.price,
+        url: item.url,
+      },
+    });
+  };
+
   return (
     <Layout style={{ padding: "24px" }}>
       <Content
@@ -42,26 +48,34 @@ const Purchase = () => {
         <List
           style={{ marginTop: 20 }}
           pagination={{ position: "bottom", align: "end" }}
-          dataSource={data}
+          dataSource={initialData}
           renderItem={(item) => (
             <List.Item>
               <Col flex="180px">
-                <img width={150} alt={item.item_name} src={item.img} />
+                <img
+                  alt={item.title}
+                  src={item.url}
+                  style={{
+                    width: "150px", // 容器宽度
+                    height: "150px", // 容器高度
+                    objectFit: "cover", // 保持图片纵横比，确保图片完整显示在容器内
+                    objectPosition: "center", // 图片居中显示
+                  }}
+                  onClick={() => handleClick(item)}
+                />
               </Col>
               <Col flex="auto">
                 <Text style={{ fontSize: "16px" }}>
-                  <b>{item.item_name}</b>
+                  <b>{item.title}</b>
                 </Text>
                 <br />
                 Order ID: {item.id}
                 <br />
-                Seller: {item.seller}
+                Seller: {item.user}
                 <br />
-                Price: {item.price}
+                Price: ${item.price}
                 <br />
-                Status: {item.status}
-                <br />
-                Rating: {item.rating}
+                Status: Shipped
               </Col>
             </List.Item>
           )}

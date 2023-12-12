@@ -7,14 +7,6 @@ function UserDropdown({ signout }) {
   const items = [
     {
       key: "1",
-      label: <>My Order</>,
-    },
-    {
-      key: "2",
-      label: <>Favorite List</>,
-    },
-    {
-      key: "3",
       label: (
         <>
           <Link to="/purchase-history">Purchase History</Link>
@@ -22,7 +14,7 @@ function UserDropdown({ signout }) {
       ),
     },
     {
-      key: "4",
+      key: "2",
       label: (
         <>
           <Link to="/selling">Selling</Link>
@@ -30,15 +22,7 @@ function UserDropdown({ signout }) {
       ),
     },
     {
-      key: "5",
-      label: <>Saved Seller</>,
-    },
-    {
-      key: "6",
-      label: <>Meaasge</>,
-    },
-    {
-      key: "7",
+      key: "3",
       label: <div onClick={signout}>Logout</div>,
     },
   ];

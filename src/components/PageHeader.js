@@ -10,11 +10,7 @@ import {
   Col,
   Space,
 } from "antd";
-import {
-  SearchOutlined,
-  ShopOutlined,
-  MessageOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, ShopOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
@@ -146,15 +142,6 @@ function PageHeader({
           <>
             <Col>
               <Register />
-            </Col>
-          </>
-        )}
-        {loggedIn && (
-          <>
-            <Col>
-              <Button shape="round">
-                <MessageOutlined />
-              </Button>
             </Col>
           </>
         )}
