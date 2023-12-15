@@ -1,4 +1,4 @@
-const domain = "https://dev-office-402602.uw.r.appspot.com";
+const domain = "http://secondhandedmarketapp.uw.r.appspot.com";
 
 export const login = (credential) => {
   const url = `${domain}/signin`;
@@ -44,12 +44,14 @@ export const searchItems = (query) => {
   const title = query?.title ?? "";
   const description = query?.description ?? "";
   const location = query?.location ?? "";
+  const user = query?.user ?? "";
 
   const authToken = localStorage.getItem("authToken");
   const url = new URL(`${domain}/search`);
   url.searchParams.append("title", title);
   url.searchParams.append("description", description);
   url.searchParams.append("location", location);
+  url.searchParams.append("user", user);
 
   return fetch(url, {
     headers: {
@@ -114,3 +116,15 @@ export function deleteItem(itemId) {
     return response.json();
   });
 }
+
+export const getRecentItems = () => {
+  const recentItemsUrl = `${domain}/recent-apps`;
+  return fetch(recentItemsUrl).then((response) => {
+    //fetch不写第二个参数默认http method是get
+    if (response.status !== 200) {
+      throw Error("Fail to get top games");
+    }
+
+    return response.json();
+  });
+};

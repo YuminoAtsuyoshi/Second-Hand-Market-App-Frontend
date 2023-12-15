@@ -1,7 +1,8 @@
-import { Layout, Card, List, Typography } from "antd";
-import { useState } from "react";
+import { Layout, Card, List, Typography, message } from "antd";
+import { useState, useEffect } from "react";
 import Login from "../components/Login";
 import { useNavigate } from "react-router-dom";
+import { getRecentItems } from "../utils";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -14,7 +15,18 @@ const Home = ({
 }) => {
   console.log("Home received searchResults:", searchResults);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // 状态变量控制Login弹窗
+  const [initialData, setInitalData] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getRecentItems()
+      .then((data) => {
+        setInitalData(data);
+      })
+      .catch((err) => {
+        message.error(err.message);
+      });
+  }, []);
 
   const showLoginModal = () => {
     if (!loggedIn) {
@@ -45,16 +57,16 @@ const Home = ({
   };
 
   // 使用GitHub托管的图片链接初始化数据
-  const initialData = Array.from({ length: 20 }, (_, index) => ({
-    id: index,
-    title: `Item ${index + 1}`,
-    price: (index + 1) * 10, // 示例价格
-    // 用你的GitHub用户名、仓库名替换下面的URL
-    url: `https://raw.githubusercontent.com/candiceKD/image/main/image${
-      index + 1
-    }.jpg`,
-    user: `John Smith`,
-  }));
+  // const initialData = Array.from({ length: 20 }, (_, index) => ({
+  //   id: index,
+  //   title: `Item ${index + 1}`,
+  //   price: (index + 1) * 10, // 示例价格
+  //   // 用你的GitHub用户名、仓库名替换下面的URL
+  //   url: `https://raw.githubusercontent.com/candiceKD/image/main/image${
+  //     index + 1
+  //   }.jpg`,
+  //   user: `John Smith`,
+  // }));
 
   const displayedData = isSearchPerformed ? searchResults : initialData;
 
@@ -85,9 +97,6 @@ const Home = ({
               xl: 4,
               xxl: 4,
             }}
-            //list里面最重要的两个部分: dataSource是把源数据这个数组拿过来,
-            //data是一个javaScript object, 是通过utils.js最后那句 return response.json()把后端返回的json string立体化成object
-            //renderItem是把dataSource里面的数据一个一个的转化成jsx
             dataSource={displayedData}
             renderItem={(item) => (
               <List.Item>
