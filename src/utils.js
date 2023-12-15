@@ -103,7 +103,8 @@ export const uploadItem = (data, file) => {
 };
 
 export function deleteItem(itemId) {
-  return fetch(`https://your-backend.com/items/${itemId}`, {
+  const url = `${domain}/app/${itemId}`;
+  return fetch(url, {
     method: "DELETE",
     // 在这里添加其他需要的配置，如 headers
   }).then((response) => {
