@@ -1,6 +1,7 @@
 import React from "react";
-import { Layout, Typography, List, Col } from "antd";
+import { Button, Layout, Typography, List, Col } from "antd";
 import { useNavigate } from "react-router-dom";
+import { deleteItem } from "../utils";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -29,6 +30,18 @@ const Purchase = () => {
         url: item.url,
       },
     });
+  };
+
+  const handleDelete = (itemId) => {
+    deleteItem(itemId)
+      .then(() => {
+        // 删除成功后的操作，例如刷新列表
+        console.log("Item deleted");
+      })
+      .catch((error) => {
+        // 处理删除时的错误
+        console.error("Error deleting item:", error);
+      });
   };
 
   return (
@@ -77,6 +90,13 @@ const Purchase = () => {
                 <br />
                 Buyer: N/A
               </Col>
+              <Button
+                type="primary"
+                shape="round"
+                onClick={() => handleDelete(item.id)}
+              >
+                Delete Item
+              </Button>
             </List.Item>
           )}
         />

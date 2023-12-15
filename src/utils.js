@@ -101,3 +101,15 @@ export const uploadItem = (data, file) => {
     }
   });
 };
+
+export function deleteItem(itemId) {
+  return fetch(`https://your-backend.com/items/${itemId}`, {
+    method: "DELETE",
+    // 在这里添加其他需要的配置，如 headers
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Error in deleting item");
+    }
+    return response.json();
+  });
+}
