@@ -128,3 +128,25 @@ export const getRecentItems = () => {
     return response.json();
   });
 };
+
+export const checkout = (id) => {
+  const authToken = localStorage.getItem("authToken");
+  const url = `${domain}/checkout?appID=${id}`;
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Fail to checkout");
+      }
+      return response.text();
+    })
+    .then((redirectUrl) => {
+      window.location = redirectUrl;
+    });
+};
