@@ -1,12 +1,24 @@
 import React from "react";
 import { Layout, Col, Row, Button } from "antd";
 import { useParams, useLocation } from "react-router-dom";
+import { checkout } from "../utils"
 
 const { Content } = Layout;
 
 const Detail = () => {
   let { id } = useParams();
   const location = useLocation();
+
+  const handleBuyClick = () => {
+    checkout(id)
+      .then(() => {
+        
+      })
+      .catch((error) => {
+        
+        console.error("Checkout failed:", error);
+      });
+  };
 
   return (
     <Layout style={{ padding: "24px" }}>
@@ -41,7 +53,7 @@ const Detail = () => {
               </Button>
             </Row>
             <Row style={{ padding: "5px" }}>
-              <Button shape="round" size="large" type="primary">
+              <Button shape="round" size="large" type="primary" onClick={handleBuyClick}>
                 Buy
               </Button>
             </Row>
