@@ -30,7 +30,7 @@ function UserDropdown({ signout }) {
   return (
     <>
       <Dropdown menu={{ items }}>
-        <Button shape="round">
+        <Button className="button-align" shape="round">
           <UserOutlined />
         </Button>
       </Dropdown>

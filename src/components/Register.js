@@ -2,6 +2,7 @@ import { Button, Form, Input, message, Modal, Radio } from "antd";
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { register } from "../utils";
+import "../style.css";
 
 function Register() {
   const [displayModal, setDisplayModal] = useState(false);
@@ -27,7 +28,12 @@ function Register() {
 
   return (
     <>
-      <Button shape="round" type="primary" onClick={signupOnClick}>
+      <Button
+        className="button-align"
+        shape="round"
+        type="primary"
+        onClick={signupOnClick}
+      >
         Register
       </Button>
       <Modal

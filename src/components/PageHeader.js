@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import UserDropdown from "./UserDropdown";
+import "../style.css";
 
 const { Header } = Layout;
 const { Option } = Select;
@@ -128,7 +129,11 @@ function PageHeader({
           </Space>
         </Col>
         <Col>
-          <Button shape="round" onClick={handleSellClick}>
+          <Button
+            className="button-align"
+            shape="round"
+            onClick={handleSellClick}
+          >
             Sell
           </Button>
         </Col>

@@ -2,6 +2,7 @@ import { Button, Form, Input, message, Modal } from "antd";
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { login } from "../utils";
+import "../style.css";
 
 function Login({
   externalVisible,
@@ -37,6 +38,7 @@ function Login({
     <>
       {showButton && (
         <Button
+          className="button-align"
           shape="round"
           onClick={() => setDisplayModal(true)}
           style={{ marginRight: "20px" }}
