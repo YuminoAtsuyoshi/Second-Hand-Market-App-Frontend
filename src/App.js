@@ -22,6 +22,7 @@ function App() {
 
   const signoutOnClick = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("username");
     setLoggedIn(false);
     setSearchResults([]);
     message.success("Successfully Signed out");

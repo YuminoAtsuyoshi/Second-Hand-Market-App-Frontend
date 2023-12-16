@@ -18,6 +18,7 @@ export const login = (credential) => {
     })
     .then((token) => {
       localStorage.setItem("authToken", token);
+      localStorage.setItem("username", credential.username);
     });
 };
 
@@ -106,14 +107,17 @@ export const uploadItem = (data, file) => {
 
 export function deleteItem(itemId) {
   const url = `${domain}/app/${itemId}`;
+  const authToken = localStorage.getItem("authToken");
   return fetch(url, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
     // 在这里添加其他需要的配置，如 headers
   }).then((response) => {
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error("Error in deleting item");
     }
-    return response.json();
   });
 }
 

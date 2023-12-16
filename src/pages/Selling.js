@@ -1,24 +1,48 @@
-import React from "react";
-import { Button, Layout, Typography, List, Col } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Layout, Typography, List, Col, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { deleteItem } from "../utils";
+import { searchItems, deleteItem } from "../utils";
 
 const { Content } = Layout;
 const { Text } = Typography;
 
-const Purchase = () => {
+const Selling = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
 
-  const initialData = Array.from({ length: 20 }, (_, index) => ({
-    id: index,
-    title: `Item ${index + 1}`,
-    price: (index + 1) * 10, // 示例价格
-    // 用你的GitHub用户名、仓库名替换下面的URL
-    url: `https://raw.githubusercontent.com/candiceKD/image/main/image${
-      index + 1
-    }.jpg`,
-    user: `John Smith`,
-  }));
+  const queryData = () => {
+    setLoading(true);
+    try {
+      const username = localStorage.getItem("username");
+      const query = { user: username };
+      searchItems(query).then((resp) => {
+        if (!resp || resp.length === 0) {
+          message.info("No selling items found");
+          setData([]);
+        } else {
+          setData(resp);
+        }
+      });
+    } catch (error) {
+      message.error(error.message || "An error occurred during the search.");
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(queryData, []);
+
+  // const initialData = Array.from({ length: 20 }, (_, index) => ({
+  //   id: index,
+  //   title: `Item ${index + 1}`,
+  //   price: (index + 1) * 10, // 示例价格
+  //   // 用你的GitHub用户名、仓库名替换下面的URL
+  //   url: `https://raw.githubusercontent.com/candiceKD/image/main/image${
+  //     index + 1
+  //   }.jpg`,
+  //   user: `John Smith`,
+  // }));
 
   const handleClick = (item) => {
     navigate(`/item/${item.id}`, {
@@ -32,15 +56,16 @@ const Purchase = () => {
     });
   };
 
-  const handleDelete = (itemId) => {
+  const handleDelete = (itemId, index) => {
     deleteItem(itemId)
       .then(() => {
         // 删除成功后的操作，例如刷新列表
-        console.log("Item deleted");
+        message.success("Item deleted");
+        queryData();
       })
       .catch((error) => {
         // 处理删除时的错误
-        console.error("Error deleting item:", error);
+        message.error("Error deleting item");
       });
   };
 
@@ -61,8 +86,9 @@ const Purchase = () => {
         <List
           style={{ marginTop: 20 }}
           pagination={{ position: "bottom", align: "end" }}
-          dataSource={initialData}
-          renderItem={(item) => (
+          dataSource={data}
+          loading={loading}
+          renderItem={(item, index) => (
             <List.Item>
               <Col flex="180px">
                 <img
@@ -93,7 +119,7 @@ const Purchase = () => {
               <Button
                 type="primary"
                 shape="round"
-                onClick={() => handleDelete(item.id)}
+                onClick={() => handleDelete(item.id, index)}
               >
                 Delete Item
               </Button>
@@ -105,4 +131,4 @@ const Purchase = () => {
   );
 };
 
-export default Purchase;
+export default Selling;
