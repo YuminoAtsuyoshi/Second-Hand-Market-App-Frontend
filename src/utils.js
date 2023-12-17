@@ -66,8 +66,6 @@ export const searchItems = (query) => {
     }
 
     return response.json();
-    //.json的作用就是把后端发回来的json string立体化成一个json object
-    //也就是把我们搜索得到的结果返回并且立体化成一个json object
   });
 };
 
@@ -113,7 +111,6 @@ export function deleteItem(itemId) {
     headers: {
       Authorization: `Bearer ${authToken}`,
     },
-    // 在这里添加其他需要的配置，如 headers
   }).then((response) => {
     if (response.status !== 200) {
       throw new Error("Error in deleting item");
@@ -124,7 +121,6 @@ export function deleteItem(itemId) {
 export const getRecentItems = () => {
   const recentItemsUrl = `${domain}/recent-apps`;
   return fetch(recentItemsUrl).then((response) => {
-    //fetch不写第二个参数默认http method是get
     if (response.status !== 200) {
       throw Error("Fail to get top games");
     }

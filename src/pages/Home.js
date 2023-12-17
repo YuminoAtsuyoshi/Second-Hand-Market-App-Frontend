@@ -1,4 +1,13 @@
-import { Layout, Card, List, Typography, message } from "antd";
+import {
+  Layout,
+  Card,
+  List,
+  Typography,
+  message,
+  Select,
+  Row,
+  Col,
+} from "antd";
 import { useState, useEffect } from "react";
 import Login from "../components/Login";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +15,7 @@ import { getRecentItems } from "../utils";
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 
 const Home = ({
   loggedIn,
@@ -15,18 +25,38 @@ const Home = ({
 }) => {
   console.log("Home received searchResults:", searchResults);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // 状态变量控制Login弹窗
-  const [initialData, setInitalData] = useState([]);
   const navigate = useNavigate();
+  const [sortedData, setSortedData] = useState([]); // 新状态用于存储排序后的数据
+  const [sortOrder, setSortOrder] = useState("recent");
 
+  // 当搜索状态或搜索结果改变时，更新 sortedData
   useEffect(() => {
-    getRecentItems()
-      .then((data) => {
-        setInitalData(data);
-      })
-      .catch((err) => {
-        message.error(err.message);
-      });
-  }, []);
+    const sortData = (data) => {
+      if (sortOrder === "asc") {
+        return [...data].sort((a, b) => a.price - b.price);
+      } else if (sortOrder === "desc") {
+        return [...data].sort((a, b) => b.price - a.price);
+      } else if (sortOrder === "recent") {
+        return [...data].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      }
+      return data;
+    };
+
+    let dataToSort = isSearchPerformed ? searchResults : [];
+    if (dataToSort.length) {
+      setSortedData(sortData(dataToSort));
+    } else {
+      getRecentItems()
+        .then((data) => {
+          setSortedData(sortData(data));
+        })
+        .catch((err) => {
+          message.error(err.message);
+        });
+    }
+  }, [isSearchPerformed, searchResults, sortOrder]);
 
   const showLoginModal = () => {
     if (!loggedIn) {
@@ -51,6 +81,7 @@ const Home = ({
           description: item.description,
           price: item.price,
           url: item.url,
+          location: item.location,
         },
       });
     }
@@ -68,8 +99,6 @@ const Home = ({
   //   user: `John Smith`,
   // }));
 
-  const displayedData = isSearchPerformed ? searchResults : initialData;
-
   return (
     <Layout style={{ padding: "24px" }}>
       <Content
@@ -81,7 +110,21 @@ const Home = ({
           overflow: "auto",
         }}
       >
-        {displayedData.length === 0 ? (
+        <Row justify="end" style={{ marginBottom: 16 }}>
+          <Col>
+            <Select
+              defaultValue={sortOrder}
+              style={{ width: 120, marginBottom: 16 }}
+              onChange={setSortOrder}
+            >
+              <Option value="recent">Most Recent</Option>
+              <Option value="asc">Lowest Price</Option>
+              <Option value="desc">Highest Price</Option>
+            </Select>
+          </Col>
+        </Row>
+
+        {sortedData.length === 0 ? (
           <div style={{ textAlign: "center", marginTop: "20px" }}>
             <p>No matching results found.</p>
           </div>
@@ -97,7 +140,7 @@ const Home = ({
               xl: 4,
               xxl: 4,
             }}
-            dataSource={displayedData}
+            dataSource={sortedData}
             renderItem={(item) => (
               <List.Item>
                 <Card

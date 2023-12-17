@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, message } from "antd";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PageHeader from "./components/PageHeader";
@@ -15,6 +15,13 @@ const { Header, Content } = Layout;
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   const signinOnSuccess = () => {
     setLoggedIn(true);
