@@ -57,6 +57,16 @@ const Selling = () => {
     });
   };
 
+  const status = (status) => {
+    if (status === "saleing") {
+      return "Selling";
+    } else if (status === "delivering") {
+      return "Delivering";
+    } else {
+      return "Has sold";
+    }
+  };
+
   const handleDelete = (itemId) => {
     deleteItem(itemId)
       .then(() => {
@@ -113,7 +123,9 @@ const Selling = () => {
                 <br />
                 Price: ${item.price}
                 <br />
-                Status: Submitted
+                Location: {item.location}
+                <br />
+                Status: {status(item.status)}
                 <br />
                 Buyer: N/A
               </Col>
