@@ -22,6 +22,7 @@ const Home = ({
   onLoginSuccess,
   searchResults,
   isSearchPerformed,
+  searchTerm,
 }) => {
   console.log("Home received searchResults:", searchResults);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // 状态变量控制Login弹窗
@@ -110,6 +111,14 @@ const Home = ({
         }}
       >
         <Row justify="end" style={{ marginBottom: 16 }}>
+          {isSearchPerformed && searchTerm && (
+            <Col flex="auto">
+              <div style={{ padding: "10px", marginTop: "-10px" }}>
+                Search Results for "{searchTerm}"
+              </div>
+            </Col>
+          )}
+
           <Col>
             <Select
               defaultValue={sortOrder}

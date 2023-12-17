@@ -59,7 +59,7 @@ function PageHeader({
     try {
       // 构建查询对象，包含所选的过滤器和用户输入的值
       const query = { [searchType]: values.item_name };
-      await onSearch(query); // 调用App.js的 onSearch 函数，并传入查询对象
+      await onSearch(query, values.item_name); // 调用App.js的 onSearch 函数，并传入查询对象和搜索词
       navigate("/");
     } catch (error) {
       message.error("Search failed: " + error.message);

@@ -15,6 +15,7 @@ const { Header, Content } = Layout;
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -35,11 +36,12 @@ function App() {
     message.success("Successfully Signed out");
   };
 
-  const handleSearch = async (query) => {
+  const handleSearch = async (query, searchWord) => {
     console.log("handleSearch called with query:", query);
     try {
       const resp = await searchItems(query);
       setSearchResults(resp || []);
+      setSearchTerm(searchWord); // 更新搜索词状态
 
       if (!resp || resp.length === 0) {
         message.info("No matching results found!");
@@ -78,6 +80,7 @@ function App() {
                     onLoginSuccess={signinOnSuccess}
                     searchResults={searchResults}
                     isSearchPerformed={searchResults.length > 0}
+                    searchTerm={searchTerm}
                   />
                 }
               />
