@@ -3,6 +3,7 @@ import {
   Layout,
   Form,
   Input,
+  Select,
   InputNumber,
   Button,
   message,
@@ -11,6 +12,7 @@ import {
 import { uploadItem } from "../utils";
 
 const { Content } = Layout;
+const { Option } = Select;
 const { Text } = Typography;
 
 function Sell() {
@@ -61,7 +63,18 @@ function Sell() {
                 marginRight: "8px",
               }}
             >
-              <Input />
+              <Select placeholder="Select location">
+                <Option value="New York">New York</Option>
+                <Option value="Los Angeles">Los Angeles</Option>
+                <Option value="Chicago">Chicago</Option>
+                <Option value="San Francisco">San Francisco</Option>
+                <Option value="Washington">Washington</Option>
+                <Option value="Dallas">Dallas</Option>
+                <Option value="Houston">Houston</Option>
+                <Option value="Boston">Boston</Option>
+                <Option value="Seattle">Seattle</Option>
+                <Option value="Philadelphia">Philadelphia</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               name="price"

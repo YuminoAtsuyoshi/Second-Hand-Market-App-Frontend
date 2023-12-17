@@ -9,3 +9,5 @@ Frontend repository for LaiOffer's project
 - `npm add antd@4` ant design
 
 - `npm add react-router-dom` router for multipages
+
+- `npm add react-map-gl mapbox-gl @types/mapbox-gl` react mapbox
