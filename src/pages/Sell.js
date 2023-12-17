@@ -3,15 +3,15 @@ import {
   Layout,
   Form,
   Input,
-  Select,
   InputNumber,
   Button,
   message,
+  Typography,
 } from "antd";
 import { uploadItem } from "../utils";
 
 const { Content } = Layout;
-const { Option } = Select;
+const { Text } = Typography;
 
 function Sell() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,9 @@ function Sell() {
         className="site-layout-background"
         style={{ padding: 24, margin: 0, height: 800, overflow: "auto" }}
       >
-        <h1>Sell Your Item</h1>
+        <Text style={{ fontSize: "20px" }}>
+          <b>Selling</b>
+        </Text>
         <Form layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             name="title"
@@ -50,63 +52,6 @@ function Sell() {
           </Form.Item>
 
           <Form.Item label="Item Specifics">
-            <Form.Item
-              name="condition"
-              label="Condition"
-              style={{
-                display: "inline-block",
-                width: "calc(50% - 8px)",
-                marginRight: "8px",
-              }}
-            >
-              <Select placeholder="Select condition">
-                <Option value="new">New</Option>
-                <Option value="used">Used</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="type"
-              label="Type"
-              style={{ display: "inline-block", width: "calc(50% - 8px)" }}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="brand"
-              label="Brand"
-              style={{
-                display: "inline-block",
-                width: "calc(50% - 8px)",
-                marginRight: "8px",
-              }}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="style"
-              label="Style"
-              style={{ display: "inline-block", width: "calc(50% - 8px)" }}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="department"
-              label="Department"
-              style={{
-                display: "inline-block",
-                width: "calc(50% - 8px)",
-                marginRight: "8px",
-              }}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="shipping"
-              label="Shipping"
-              style={{ display: "inline-block", width: "calc(50% - 8px)" }}
-            >
-              <Input />
-            </Form.Item>
             <Form.Item
               name="location"
               label="Location"

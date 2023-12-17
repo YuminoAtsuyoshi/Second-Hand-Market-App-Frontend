@@ -11,7 +11,7 @@ const Selling = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
-  const queryData = () => {
+  useEffect(() => {
     setLoading(true);
     try {
       const username = localStorage.getItem("username");
@@ -30,8 +30,7 @@ const Selling = () => {
     } finally {
       setLoading(false);
     }
-  };
-  useEffect(queryData, []);
+  }, []);
 
   // const initialData = Array.from({ length: 20 }, (_, index) => ({
   //   id: index,
@@ -52,16 +51,28 @@ const Selling = () => {
         description: item.description,
         price: item.price,
         url: item.url,
+        location: item.location,
+        status: item.status,
       },
     });
   };
 
-  const handleDelete = (itemId, index) => {
+  const status = (status) => {
+    if (status === "saleing") {
+      return "Selling";
+    } else if (status === "delivering") {
+      return "Delivering";
+    } else {
+      return "Has sold";
+    }
+  };
+
+  const handleDelete = (itemId) => {
     deleteItem(itemId)
       .then(() => {
-        // 删除成功后的操作，例如刷新列表
+        // 向API发去删除请求后删除本地数据，不再向后端查询新列表，否则太快查到的还是原来的
         message.success("Item deleted");
-        queryData();
+        setData(data.filter((item) => item.id !== itemId));
       })
       .catch((error) => {
         // 处理删除时的错误
@@ -88,7 +99,7 @@ const Selling = () => {
           pagination={{ position: "bottom", align: "end" }}
           dataSource={data}
           loading={loading}
-          renderItem={(item, index) => (
+          renderItem={(item) => (
             <List.Item>
               <Col flex="180px">
                 <img
@@ -112,14 +123,16 @@ const Selling = () => {
                 <br />
                 Price: ${item.price}
                 <br />
-                Status: Submitted
+                Location: {item.location}
+                <br />
+                Status: {status(item.status)}
                 <br />
                 Buyer: N/A
               </Col>
               <Button
                 type="primary"
                 shape="round"
-                onClick={() => handleDelete(item.id, index)}
+                onClick={() => handleDelete(item.id)}
               >
                 Delete Item
               </Button>

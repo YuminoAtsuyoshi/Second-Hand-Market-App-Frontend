@@ -17,6 +17,8 @@ const Purchase = () => {
       index + 1
     }.jpg`,
     user: `John Smith`,
+    location: `Boston`,
+    status: `saleing`,
   }));
 
   const handleClick = (item) => {
@@ -27,8 +29,20 @@ const Purchase = () => {
         description: item.description,
         price: item.price,
         url: item.url,
+        location: item.location,
+        status: item.status,
       },
     });
+  };
+
+  const status = (status) => {
+    if (status === "saleing") {
+      return "Selling";
+    } else if (status === "delivering") {
+      return "Delivering";
+    } else {
+      return "Has sold";
+    }
   };
 
   return (
@@ -69,13 +83,15 @@ const Purchase = () => {
                   <b>{item.title}</b>
                 </Text>
                 <br />
-                Order ID: {item.id}
+                Item ID: {item.id}
                 <br />
                 Seller: {item.user}
                 <br />
                 Price: ${item.price}
                 <br />
-                Status: Shipped
+                Location: {item.location}
+                <br />
+                Status: {status(item.status)}
               </Col>
             </List.Item>
           )}
