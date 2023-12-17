@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 
 function UserDropdown({ signout }) {
+  const username = localStorage.getItem("username");
+
   const items = [
     {
       key: "1",
       label: (
         <>
-          <Link to="/purchase-history">Purchase History</Link>
+          <b>Hello, {username}</b>
         </>
       ),
     },
@@ -17,12 +19,20 @@ function UserDropdown({ signout }) {
       key: "2",
       label: (
         <>
-          <Link to="/selling">Selling</Link>
+          <Link to="/purchase-history">Purchase History</Link>
         </>
       ),
     },
     {
       key: "3",
+      label: (
+        <>
+          <Link to="/selling">Selling</Link>
+        </>
+      ),
+    },
+    {
+      key: "4",
       label: <div onClick={signout}>Logout</div>,
     },
   ];

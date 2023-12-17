@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Col, Row, Button } from "antd";
 import { useParams, useLocation } from "react-router-dom";
-import { checkout } from "../utils"
+import { checkout } from "../utils";
 
 const { Content } = Layout;
 
@@ -11,13 +11,20 @@ const Detail = () => {
 
   const handleBuyClick = () => {
     checkout(id)
-      .then(() => {
-        
-      })
+      .then(() => {})
       .catch((error) => {
-        
         console.error("Checkout failed:", error);
       });
+  };
+
+  const status = () => {
+    if (location.state.status === "saleing") {
+      return "Selling";
+    } else if (location.state.status === "delivering") {
+      return "Delivering";
+    } else {
+      return "Has sold";
+    }
   };
 
   return (
@@ -46,14 +53,15 @@ const Detail = () => {
             <Row>ID: {id}</Row>
             <Row>Seller name: {location.state.user}</Row>
             <Row>Price: ${location.state.price}</Row>
-            <Row>Location: Boston</Row>
+            <Row>Location: {location.state.location}</Row>
+            <Row>Status: {status()}</Row>
             <Row style={{ padding: "5px" }}>
-              <Button shape="round" size="large">
-                Contact seller
-              </Button>
-            </Row>
-            <Row style={{ padding: "5px" }}>
-              <Button shape="round" size="large" type="primary" onClick={handleBuyClick}>
+              <Button
+                shape="round"
+                size="large"
+                type="primary"
+                onClick={handleBuyClick}
+              >
                 Buy
               </Button>
             </Row>
