@@ -62,16 +62,22 @@ function Register() {
             <Input.Password prefix={<LockOutlined />} placeholder="Password" />
           </Form.Item>
           <Form.Item
-            name="name"
-            rules={[{ required: true, message: "Please input your name" }]}
-          >
-            <Input placeholder="Name" />
-          </Form.Item>
-          <Form.Item
             name="age"
             rules={[{ required: true, message: "Please input your age" }]}
           >
             <Input placeholder="Age" />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your email" }]}
+          >
+            <Input placeholder="Email" />
+          </Form.Item>
+          <Form.Item
+            name="address"
+            rules={[{ required: true, message: "Please input your address" }]}
+          >
+            <Input placeholder="Address" />
           </Form.Item>
           <Form.Item
             label="Gender"

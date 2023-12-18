@@ -82,6 +82,8 @@ const Home = ({
           description: item.description,
           price: item.price,
           url: item.url,
+          location: item.location,
+          status: item.status,
         },
       });
     }

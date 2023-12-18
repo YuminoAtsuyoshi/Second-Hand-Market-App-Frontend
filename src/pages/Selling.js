@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Layout, Typography, List, Col, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { searchItems, deleteItem } from "../utils";
+import { getAccountDetail, deleteItem } from "../utils";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -14,14 +14,12 @@ const Selling = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      const username = localStorage.getItem("username");
-      const query = { user: username };
-      searchItems(query).then((resp) => {
-        if (!resp || resp.length === 0) {
+      getAccountDetail().then((resp) => {
+        if (!resp.posted_apps || resp.posted_apps.length === 0) {
           message.info("No selling items found");
           setData([]);
         } else {
-          setData(resp);
+          setData(resp.posted_apps);
         }
       });
     } catch (error) {

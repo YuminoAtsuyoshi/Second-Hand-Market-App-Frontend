@@ -78,12 +78,6 @@ export const uploadItem = (data, file) => {
 
   const formData = new FormData();
   formData.append("title", data.title);
-  formData.append("condition", data.condition);
-  formData.append("type", data.type);
-  formData.append("brand", data.brand);
-  formData.append("style", data.style);
-  formData.append("department", data.department);
-  formData.append("shipping", data.shipping);
   formData.append("location", data.location);
   formData.append("price", parseInt(data.price));
   formData.append("media_file", file);
@@ -149,4 +143,20 @@ export const checkout = (id) => {
     .then((redirectUrl) => {
       window.location = redirectUrl;
     });
+};
+
+export const getAccountDetail = () => {
+  const url = `${domain}/account/details`;
+  const authToken = localStorage.getItem("authToken");
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get top games");
+    }
+
+    return response.json();
+  });
 };
