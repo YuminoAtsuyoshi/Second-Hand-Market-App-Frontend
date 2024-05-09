@@ -2,6 +2,8 @@
 
 Frontend repository for LaiOffer's project
 
+[Backend repository](https://github.com/AAbiAbi/Second-Hand-Market-App)
+
 - Use `npm install all` for package installing
 
 **Instructions used** (`npm install all` should be enough)
